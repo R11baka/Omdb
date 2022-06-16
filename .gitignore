@@ -8,4 +8,5 @@ composer.phar
 /vendor/
 phpunit.xml
 .env
+clover.xml
 

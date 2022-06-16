@@ -16,7 +16,8 @@
     "require": {
         "php": "^7.4 || ^8.0",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-http": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -25,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "R11baka\\Ombd\\": "src/"
+            "Omdb\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "R11baka\\Ombd\\Tests\\": "tests"
+            "Omdb\\Tests\\": "tests"
         }
     },
     "scripts": {
