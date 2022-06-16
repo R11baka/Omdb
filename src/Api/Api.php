@@ -16,12 +16,12 @@ class Api
 
     public function search($params)
     {
-        $url = http_build_url(self::BASE_URL, $params);
-        $response = $this->httpClient->getRequest($url);
+        $url = http_build_query($params);
+        $response = $this->httpClient->getRequest(self::BASE_URL . "?" . $url);
         if (empty($response)) {
             throw new \RuntimeException("Fetched empty response");
         }
-        $result = json_decode($response, true);
+        $result = json_decode($response, true, 521, JSON_THROW_ON_ERROR);
         return $result;
     }
 }

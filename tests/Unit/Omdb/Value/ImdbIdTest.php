@@ -1,9 +1,9 @@
 <?php
 
-namespace Omdb\Tests\unit\Omdb\Value;
+namespace Omdb\Tests\Unit\Omdb\Value;
 
 use InvalidArgumentException;
-use Omdb\Omdb\Value\ImdbId;
+use Omdb\Value\ImdbId;
 use PHPUnit\Framework\TestCase;
 
 class ImdbIdTest extends TestCase

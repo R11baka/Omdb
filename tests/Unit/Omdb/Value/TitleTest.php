@@ -1,9 +1,9 @@
 <?php
 
-namespace Omdb\Tests\unit\Omdb\Value;
+namespace Omdb\Tests\Unit\Omdb\Value;
 
 use InvalidArgumentException;
-use Omdb\Omdb\Value\Title;
+use Omdb\Value\Title;
 use PHPUnit\Framework\TestCase;
 
 class TitleTest extends TestCase

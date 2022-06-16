@@ -1,9 +1,9 @@
 <?php
 
-namespace Omdb\Tests\unit\Omdb\Value;
+namespace Omdb\Tests\Unit\Omdb\Value;
 
 use InvalidArgumentException;
-use Omdb\Omdb\Value\Year;
+use Omdb\Value\Year;
 use PHPUnit\Framework\TestCase;
 
 class YearTest extends TestCase
@@ -16,7 +16,7 @@ class YearTest extends TestCase
      */
     public function correctYears($year)
     {
-        \Omdb\Omdb\Value\Year::fromString($year);
+        \Omdb\Value\Year::fromString($year);
         $this->assertTrue(true);
     }
 

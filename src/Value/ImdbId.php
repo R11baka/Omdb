@@ -1,6 +1,6 @@
 <?php
 
-namespace Omdb\Omdb\Value;
+namespace Omdb\Value;
 
 class ImdbId
 {

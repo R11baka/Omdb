@@ -2,11 +2,12 @@
 
 namespace Omdb;
 
+use JsonException;
 use Omdb\Api\Api;
 use Omdb\Api\ApiFactory;
-use Omdb\Omdb\Value\ImdbId;
-use Omdb\Omdb\Value\Title;
-use Omdb\Omdb\Value\Year;
+use Omdb\Value\ImdbId;
+use Omdb\Value\Title;
+use Omdb\Value\Year;
 
 /**
  * Main class for using Omdb api
@@ -21,7 +22,7 @@ class Omdb
      * @param string $apiKey
      * @param Api|null $api
      */
-    public function __construct(string $apiKey, ?Api $api)
+    public function __construct(string $apiKey, ?Api $api = null)
     {
         if (empty($apiKey)) {
             throw new \InvalidArgumentException("Provide not empty apiKey");
@@ -56,6 +57,7 @@ class Omdb
     /**
      * @param array|string|null $params
      * @return mixed
+     * @throws JsonException
      */
     public function search($params)
     {

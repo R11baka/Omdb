@@ -10,7 +10,7 @@
     </coverage>
   <testsuites>
     <testsuite name="Unit Test Suite">
-      <directory>tests/unit</directory>
+      <directory>tests/Unit</directory>
     </testsuite>
   </testsuites>
   <php>
