@@ -28,7 +28,7 @@ class OmdbTest extends TestCase
     public function fetchMovieWithCorrectApiKey()
     {
         $title = 'The Matrix';
-        $o = new Omdb('');
+        $o = new Omdb('5e84d0ea');
         $resp = $o->title($title)->search();
         $this->assertIsObject($resp);
         $this->assertSame($title, $resp->getTitle());
