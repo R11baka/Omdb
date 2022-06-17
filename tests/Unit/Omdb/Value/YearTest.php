@@ -16,7 +16,7 @@ class YearTest extends TestCase
      */
     public function correctYears($year)
     {
-        \Omdb\Value\Year::fromString($year);
+        Year::fromString($year);
         $this->assertTrue(true);
     }
 

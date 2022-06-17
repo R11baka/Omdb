@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omdb\Value;
 
 class Title
@@ -22,6 +24,11 @@ class Title
     public function getTitle(): string
     {
         return $this->title;
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
 }

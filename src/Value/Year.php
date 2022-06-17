@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omdb\Value;
 
 class Year
@@ -17,7 +19,7 @@ class Year
         if (!is_numeric($year)) {
             throw new \InvalidArgumentException("Incorrect year");
         }
-        $this->year = $year;
+        $this->year = (int)$year;
     }
 
     /**

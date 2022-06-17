@@ -4,6 +4,7 @@ namespace Omdb\Tests\Unit;
 
 use JsonException;
 use Omdb\Api\Api;
+use Omdb\Api\Exception\ApiException;
 use Omdb\Api\HttpClient\Client;
 use Omdb\Omdb;
 use PHPUnit\Framework\TestCase;
@@ -12,29 +13,26 @@ class OmdbTest extends TestCase
 {
     /**
      * @test
-     * @return void
      */
     public function checkSimpleSearch()
     {
+        $this->expectException(ApiException::class);
         $api = $this->apiFactory();
         $omdb = new Omdb('apiKey', $api);
-        $result = $omdb->search("Title");
-        $this->assertIsArray($result);
+        $omdb->search("Title");
     }
 
     /**
      * @test
-     * @return void
      */
     public function cantCreateWithoutApiKey()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $omdb = new Omdb('');
+        new Omdb('');
     }
 
     /**
      * @test
-     * @return void
      */
     public function incorrectResponse()
     {
@@ -47,7 +45,26 @@ class OmdbTest extends TestCase
         $omdb->search("Test");
     }
 
-    private function apiFactory()
+    /**
+     * @test
+     */
+    public function checkSearchByImdb()
+    {
+        $apiKey = 'apiKey';
+        $imdbId = "tt3896198";
+        $clientMock = $this->getMockBuilder(Client::class)->getMock();
+        $clientMock->method('getRequest')->with("https://www.omdbapi.com/?i=$imdbId&apikey=$apiKey")->willReturn(
+            file_get_contents('tests/Unit/__mock__/tt3896198.json')
+        );
+        $clientMock->expects($this->once())->method('getRequest');
+
+        $omdb = new Omdb($apiKey, new Api($clientMock));
+        $result = $omdb->imdb($imdbId)->search();
+        $this->assertIsObject($result);
+        $this->assertSame($imdbId, $result->getImdbID());
+    }
+
+    private function apiFactory(): Api
     {
         $clientMock = $this->getMockBuilder(Client::class)->getMock();
         $clientMock->method('getRequest')->willReturn('{}');
