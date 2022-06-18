@@ -30,5 +30,4 @@ class Title
     {
         return $this->getTitle();
     }
-
 }

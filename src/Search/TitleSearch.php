@@ -21,7 +21,7 @@ class TitleSearch extends BaseSearch
         $this->title = Title::fromString($title);
     }
 
-    public function year($year)
+    public function year($year): void
     {
         $this->year = Year::fromString($year);
     }
@@ -32,5 +32,4 @@ class TitleSearch extends BaseSearch
         $result = $this->api->search(['title' => $this->title, 'year' => $this->year]);
         return new Movie($result);
     }
-
 }

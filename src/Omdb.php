@@ -59,8 +59,8 @@ class Omdb
     {
         if (!empty($params) && is_string($params)) {
             $this->params['search'] = Search::fromString($params);
+            $baseSearch = new \Omdb\Search\Search($params, $this->api);
+            return $baseSearch->search();
         }
-        $searchParams = array_merge($this->params);
-        return $this->api->search($searchParams);
     }
 }

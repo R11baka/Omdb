@@ -10,7 +10,7 @@ class Movie
     private int $year;
     private string $rated;
     private string $released;
-    private ?int $runtime;
+    private int $runtime;
     private array $genre;
     private string $director;
     private array $actors;
@@ -39,7 +39,7 @@ class Movie
         $this->year = intval($data['Year']);
         $this->rated = $data['Rater'] ?? '';
         $this->released = $data['Released'] ?? '';
-        $this->runtime = intval($data['Runtime']) ?? null;
+        $this->runtime = intval($data['Runtime']);
         $this->genre = explode(',', $data['Genre'] ?? '');
         $this->director = $data['Director'];
         $this->actors = explode(',', $data['Actors']);
@@ -103,7 +103,7 @@ class Movie
     /**
      * @return int
      */
-    public function getRuntime()
+    public function getRuntime(): int
     {
         return $this->runtime;
     }
@@ -243,5 +243,4 @@ class Movie
     {
         return $this->webSite;
     }
-
 }
