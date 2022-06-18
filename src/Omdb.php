@@ -10,17 +10,15 @@ use Omdb\Api\ApiFactory;
 use Omdb\Api\ApiInterface;
 use Omdb\Api\Exception\ApiException;
 use Omdb\Api\Exception\ParamsException;
-use Omdb\Value\ImdbId;
+use Omdb\Search\ImdbIdSearch;
+use Omdb\Search\TitleSearch;
 use Omdb\Value\Search;
-use Omdb\Value\Title;
-use Omdb\Value\Year;
 
 /**
  * Main class for using Omdb api
  */
 class Omdb
 {
-    private string $apiKey;
     private array $params;
     private ApiInterface $api;
 
@@ -33,33 +31,21 @@ class Omdb
         if (empty($apiKey)) {
             throw new \InvalidArgumentException("Provide not empty apiKey");
         }
-        $this->apiKey = $apiKey;
-        $this->api = $api ?? (new ApiFactory())->make();
+        $this->api = $api ?? (new ApiFactory($apiKey))->make();
     }
 
-    public function title(string $title)
+    public function title(string $title): TitleSearch
     {
-        $this->params['title'] = Title::fromString($title);
-        return $this;
-    }
-
-    /**
-     * @param string|int $year
-     */
-    public function year($year)
-    {
-        $this->params['year'] = Year::fromString($year);
-        return $this;
+        return new TitleSearch($title, $this->api);
     }
 
     /**
      * @param string $imdb
-     * @return Omdb
+     * @return ImdbIdSearch
      */
-    public function imdb(string $imdb)
+    public function imdb(string $imdb): ImdbIdSearch
     {
-        $this->params['imdb'] = ImdbId::fromString($imdb);
-        return $this;
+        return new ImdbIdSearch($imdb, $this->api);
     }
 
     /**
@@ -74,7 +60,7 @@ class Omdb
         if (!empty($params) && is_string($params)) {
             $this->params['search'] = Search::fromString($params);
         }
-        $searchParams = array_merge($this->params, ['apikey' => $this->apiKey]);
+        $searchParams = array_merge($this->params);
         return $this->api->search($searchParams);
     }
 }

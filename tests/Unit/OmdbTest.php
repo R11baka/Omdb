@@ -41,7 +41,7 @@ class OmdbTest extends TestCase
         $clientMock->method('getRequest')->willReturn('{');
         $clientMock->expects($this->once())->method('getRequest');
 
-        $omdb = new Omdb('apiKey', new Api($clientMock));
+        $omdb = new Omdb('apiKey', new Api($clientMock,'apiKey'));
         $omdb->search("Test");
     }
 
@@ -58,7 +58,7 @@ class OmdbTest extends TestCase
         );
         $clientMock->expects($this->once())->method('getRequest');
 
-        $omdb = new Omdb($apiKey, new Api($clientMock));
+        $omdb = new Omdb($apiKey, new Api($clientMock, $apiKey));
         $result = $omdb->imdb($imdbId)->search();
         $this->assertIsObject($result);
         $this->assertSame($imdbId, $result->getImdbID());
@@ -70,6 +70,6 @@ class OmdbTest extends TestCase
         $clientMock->method('getRequest')->willReturn('{}');
         $clientMock->expects($this->once())->method('getRequest');
 
-        return new Api($clientMock);
+        return new Api($clientMock, 'ApiKey');
     }
 }

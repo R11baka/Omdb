@@ -13,11 +13,13 @@ class Api implements ApiInterface
     private Client $httpClient;
     private ParamsConverter $converter;
     const BASE_URL = 'https://www.omdbapi.com/';
+    private string $apiKey;
 
-    public function __construct(Client $httpClient)
+    public function __construct(Client $httpClient, string $apiKey)
     {
         $this->httpClient = $httpClient;
         $this->converter = new ParamsConverter();
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -30,6 +32,7 @@ class Api implements ApiInterface
     public function search($params)
     {
         $params = $this->converter->convert($params);
+        $params = array_merge($params, ['apikey' => $this->apiKey]);
         $url = self::BASE_URL . "?" . http_build_query($params);
         $response = $this->httpClient->getRequest($url);
         if (empty($response)) {
@@ -42,6 +45,6 @@ class Api implements ApiInterface
         if ($result['Response'] == 'False' && isset($result['Error'])) {
             throw new ApiException($result['Error']);
         }
-        return new Movie($result);
+        return $result;
     }
 }
