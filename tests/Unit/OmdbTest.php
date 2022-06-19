@@ -4,10 +4,10 @@ namespace Omdb\Tests\Unit;
 
 use JsonException;
 use Omdb\Api\Api;
-use Omdb\Api\Exception\ApiException;
 use Omdb\Api\HttpClient\Client;
 use Omdb\Omdb;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class OmdbTest extends TestCase
 {
@@ -16,7 +16,7 @@ class OmdbTest extends TestCase
      */
     public function checkSimpleSearch()
     {
-        $this->expectException(ApiException::class);
+        $this->expectException(RuntimeException::class);
         $api = $this->apiFactory();
         $omdb = new Omdb('apiKey', $api);
         $omdb->search("Title");

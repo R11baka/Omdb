@@ -40,7 +40,7 @@ class Api implements ApiInterface
         }
         $result = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
         if (!isset($result['Response'])) {
-            throw new ApiException("Incorrect response:" . json_encode($response));
+            throw new \RuntimeException("Incorrect response:" . json_encode($response));
         }
         if ($result['Response'] == 'False' && isset($result['Error'])) {
             throw new ApiException($result['Error']);

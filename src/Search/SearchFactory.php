@@ -27,9 +27,15 @@ class SearchFactory
         }
         if (is_array($params) && isset($params['search'])) {
             $search = new Search($params['search'], $this->api);
+            if (isset($params['take'])) {
+                $search->take($params['take']);
+            }
         }
         if (is_array($params) && isset($params['title'])) {
             $search = new TitleSearch($params['title'], $this->api);
+            if (isset($params['year'])) {
+                $search->year($params['year']);
+            }
         }
         if (is_array($params) && isset($params['imdb'])) {
             $search = new ImdbIdSearch($params['imdb'], $this->api);

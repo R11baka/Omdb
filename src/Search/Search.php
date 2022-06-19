@@ -11,6 +11,7 @@ use Omdb\Value\Year;
 class Search extends BaseSearch
 {
     private array $searchParams = [];
+    private int $take = 10;
 
     public function __construct(string $search, ApiInterface $api)
     {
@@ -24,6 +25,14 @@ class Search extends BaseSearch
         $this->searchParams['year'] = $year;
     }
 
+    public function take(int $take)
+    {
+        if ($take <= 0) {
+            throw new \InvalidArgumentException("take can't be negative");
+        }
+        $this->take = $take;
+    }
+
     /**
      * @return SearchResult[]
      * @throws ApiException|OmdbException
@@ -31,13 +40,26 @@ class Search extends BaseSearch
     public function search(): array
     {
         $result = [];
-        $response = $this->api->search($this->searchParams);
-        if (empty($response) || !isset($response['Search'])) {
-            throw new ApiException("Incorrect search result");
+        $page = 1;
+        do {
+            $this->searchParams['page'] = $page;
+            try {
+                $response = $this->api->search($this->searchParams);
+            } catch (ApiException $e) {
+                break;
+            }
+            if (empty($response) || !isset($response['Search'])) {
+                throw new ApiException("Incorrect search result");
+            }
+            foreach ($response['Search'] as $item) {
+                $result[] = new SearchResult($item);
+            }
+            $page++;
+        } while (count($result) < $this->take);
+        if ($this->take < count($result)) {
+            $result = array_slice($result, 0, $this->take);
         }
-        foreach ($response['Search'] as $item) {
-            $result[] = new SearchResult($item);
-        }
+
         return $result;
     }
 }

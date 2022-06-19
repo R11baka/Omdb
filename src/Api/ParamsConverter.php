@@ -15,7 +15,8 @@ class ParamsConverter
         'search' => 's',
         'imdb' => 'i',
         'year' => 'y',
-        'apikey' => 'apikey'
+        'apikey' => 'apikey',
+        'page' => 'page'
     ];
 
     /**

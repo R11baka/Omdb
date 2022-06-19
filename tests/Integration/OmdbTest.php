@@ -69,11 +69,40 @@ class OmdbTest extends TestCase
         $this->assertIsArray($response);
         $this->assertNotEmpty($response);
         $this->assertIsObject($response[0]);
-        $this->assertInstanceOf(SearchResult::class, $response[0]);
+        $this->assertCount(10, $response);
+        $this->assertContainsOnlyInstancesOf(SearchResult::class, $response);
         $first = $response[0];
         $this->assertIsString($first->getTitle());
         $this->assertIsString($first->getImdbId());
         $this->assertIsString($first->getType());
+    }
+
+    /**
+     * @test
+     * @testdox Checking if we can limit search result
+     */
+    public function searchWithTake()
+    {
+        $take = 15;
+        $o = new Omdb(self::$apiKey);
+        $response = $o->search(['search' => 'test', 'take' => $take]);
+        $this->assertNotEmpty($response);
+        $this->assertContainsOnlyInstancesOf(SearchResult::class, $response);
+        $this->assertCount($take, $response);
+    }
+
+    /**
+     * @test
+     * @testdox Search with take, but resp has only several items
+     */
+    public function searchTake()
+    {
+        $take = 15;
+        $o = new Omdb(self::$apiKey);
+        $response = $o->search(['search' => 'AniMatrix', 'take' => $take]);
+        $this->assertNotEmpty($response);
+        $this->assertLessThan($take, count($response));
+        $this->assertContainsOnlyInstancesOf(SearchResult::class, $response);
     }
 
     /**
