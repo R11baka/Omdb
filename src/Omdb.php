@@ -6,20 +6,20 @@ namespace Omdb;
 
 use JsonException;
 use Omdb\Api\Api;
+use Omdb\Api\Exception\OmdbException;
 use Omdb\Api\ApiFactory;
 use Omdb\Api\ApiInterface;
 use Omdb\Api\Exception\ApiException;
 use Omdb\Api\Exception\ParamsException;
 use Omdb\Search\ImdbIdSearch;
+use Omdb\Search\SearchFactory;
 use Omdb\Search\TitleSearch;
-use Omdb\Value\Search;
 
 /**
  * Main class for using Omdb api
  */
 class Omdb
 {
-    private array $params;
     private ApiInterface $api;
 
     /**
@@ -54,13 +54,15 @@ class Omdb
      * @throws ApiException
      * @throws ParamsException
      * @throws JsonException
+     * @throws OmdbException
      */
     public function search($params = '')
     {
-        if (!empty($params) && is_string($params)) {
-            $this->params['search'] = Search::fromString($params);
-            $baseSearch = new \Omdb\Search\Search($params, $this->api);
-            return $baseSearch->search();
+        if (empty($params)) {
+            throw new \InvalidArgumentException("Provide not empty search string");
         }
+        $factory = new SearchFactory($this->api);
+        $search = $factory->make($params);
+        return $search->search();
     }
 }

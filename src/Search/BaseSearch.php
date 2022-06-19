@@ -6,7 +6,7 @@ namespace Omdb\Search;
 
 use Omdb\Api\ApiInterface;
 
-abstract class BaseSearch
+abstract class BaseSearch implements Searchable
 {
     protected ApiInterface $api;
 
