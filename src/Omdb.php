@@ -11,6 +11,7 @@ use Omdb\Api\ApiFactory;
 use Omdb\Api\ApiInterface;
 use Omdb\Api\Exception\ApiException;
 use Omdb\Api\Exception\ParamsException;
+use Omdb\Api\Response\SearchResult;
 use Omdb\Search\ImdbIdSearch;
 use Omdb\Search\SearchFactory;
 use Omdb\Search\TitleSearch;
@@ -49,14 +50,14 @@ class Omdb
     }
 
     /**
-     * @param array|string|null $params
-     * @return mixed
+     * @param array|string $params
+     * @return array<SearchResult>
      * @throws ApiException
      * @throws ParamsException
      * @throws JsonException
      * @throws OmdbException
      */
-    public function search($params = '')
+    public function search($params)
     {
         if (empty($params)) {
             throw new \InvalidArgumentException("Provide not empty search string");

@@ -21,9 +21,10 @@ class TitleSearch extends BaseSearch
         $this->title = Title::fromString($title);
     }
 
-    public function year($year): void
+    public function year($year): self
     {
         $this->year = Year::fromString($year);
+        return $this;
     }
 
 

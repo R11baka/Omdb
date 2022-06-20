@@ -50,6 +50,29 @@ class OmdbTest extends TestCase
 
     /**
      * @test
+     * @testdox Try to search with year
+     */
+    public function searchWithTitleAndYear()
+    {
+        $omdb = new Omdb(self::$apiKey);
+        $resp = $omdb->title("ani")->year(2012)->search();
+        $this->assertIsObject($resp);
+        $this->assertInstanceOf(Movie::class, $resp);
+    }
+
+    /**
+     * @test
+     * @testdox Try to search not exists movie
+     */
+    public function movieNotFound()
+    {
+        $this->expectException(ApiException::class);
+        $omdb = new Omdb(self::$apiKey);
+        $omdb->title("ani")->year(1998)->search();
+    }
+
+    /**
+     * @test
      */
     public function searchByImdb()
     {
@@ -129,5 +152,15 @@ class OmdbTest extends TestCase
         $this->assertInstanceOf(Movie::class, $response);
         $this->assertIsString($response->getImdbID());
         $this->assertEquals($response->getImdbID(), $imdbId);
+    }
+
+    /**
+     * @test
+     */
+    public function searchMovie()
+    {
+        $omdb = new Omdb(self::$apiKey);
+        $response = $omdb->search(['search' => 'ani', 'take' => 110]);
+        $this->assertNotEmpty($response);
     }
 }
