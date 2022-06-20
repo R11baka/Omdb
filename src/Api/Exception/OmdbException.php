@@ -8,5 +8,4 @@ use Exception;
 
 class OmdbException extends Exception
 {
-
 }

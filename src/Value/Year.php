@@ -40,6 +40,4 @@ class Year
     {
         return $this->year;
     }
-
-
 }

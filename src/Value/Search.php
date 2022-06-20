@@ -31,5 +31,4 @@ class Search
     {
         return $this->search;
     }
-
 }

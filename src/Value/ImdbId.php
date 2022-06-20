@@ -36,5 +36,4 @@ class ImdbId
     {
         return $this->imdbId;
     }
-
 }

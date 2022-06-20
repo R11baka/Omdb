@@ -11,8 +11,6 @@
 
     <!-- Directories to be checked -->
     <file>src</file>
-    <file>tests/unit</file>
-    <file>tests/functional</file>
 
     <!-- Include full Unleashed Coding Standard -->
     <rule  ref="PSR12"/>

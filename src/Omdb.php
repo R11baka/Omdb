@@ -6,22 +6,21 @@ namespace Omdb;
 
 use JsonException;
 use Omdb\Api\Api;
+use Omdb\Api\Exception\OmdbException;
 use Omdb\Api\ApiFactory;
 use Omdb\Api\ApiInterface;
 use Omdb\Api\Exception\ApiException;
 use Omdb\Api\Exception\ParamsException;
-use Omdb\Value\ImdbId;
-use Omdb\Value\Search;
-use Omdb\Value\Title;
-use Omdb\Value\Year;
+use Omdb\Api\Response\SearchResult;
+use Omdb\Search\ImdbIdSearch;
+use Omdb\Search\SearchFactory;
+use Omdb\Search\TitleSearch;
 
 /**
  * Main class for using Omdb api
  */
 class Omdb
 {
-    private string $apiKey;
-    private array $params;
     private ApiInterface $api;
 
     /**
@@ -33,48 +32,38 @@ class Omdb
         if (empty($apiKey)) {
             throw new \InvalidArgumentException("Provide not empty apiKey");
         }
-        $this->apiKey = $apiKey;
-        $this->api = $api ?? (new ApiFactory())->make();
+        $this->api = $api ?? (new ApiFactory($apiKey))->make();
     }
 
-    public function title(string $title)
+    public function title(string $title): TitleSearch
     {
-        $this->params['title'] = Title::fromString($title);
-        return $this;
-    }
-
-    /**
-     * @param string|int $year
-     */
-    public function year($year)
-    {
-        $this->params['year'] = Year::fromString($year);
-        return $this;
+        return new TitleSearch($title, $this->api);
     }
 
     /**
      * @param string $imdb
-     * @return Omdb
+     * @return ImdbIdSearch
      */
-    public function imdb(string $imdb)
+    public function imdb(string $imdb): ImdbIdSearch
     {
-        $this->params['imdb'] = ImdbId::fromString($imdb);
-        return $this;
+        return new ImdbIdSearch($imdb, $this->api);
     }
 
     /**
-     * @param array|string|null $params
-     * @return mixed
+     * @param array|string $params
+     * @return array<SearchResult>
      * @throws ApiException
      * @throws ParamsException
      * @throws JsonException
+     * @throws OmdbException
      */
-    public function search($params = '')
+    public function search($params)
     {
-        if (!empty($params) && is_string($params)) {
-            $this->params['search'] = Search::fromString($params);
+        if (empty($params)) {
+            throw new \InvalidArgumentException("Provide not empty search string");
         }
-        $searchParams = array_merge($this->params, ['apikey' => $this->apiKey]);
-        return $this->api->search($searchParams);
+        $factory = new SearchFactory($this->api);
+        $search = $factory->make($params);
+        return $search->search();
     }
 }

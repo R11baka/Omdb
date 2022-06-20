@@ -28,6 +28,9 @@ class CurlClient implements Client
             if ($response === false) {
                 throw new RuntimeException(curl_error($curl));
             }
+            if (!is_string($response)) {
+                throw new RuntimeException("Incorrect response from curl. Not a string");
+            }
             return $response;
         } catch (\Exception $e) {
             if (isset($curl) && is_resource($curl)) {
