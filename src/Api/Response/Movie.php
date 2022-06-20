@@ -8,25 +8,25 @@ class Movie
 {
     private string $title;
     private int $year;
-    private string $rated;
+    private ?string $rated;
     private string $released;
     private ?int $runtime;
     private array $genre;
-    private string $director;
+    private ?string $director;
     private array $actors;
     private string $plot;
     private string $language;
     private string $country;
     private string $poster;
-    private string $awards;
+    private ?string $awards;
     private array $ratings;
-    private int $metascore;
+    private ?int $metascore;
     private float $imdbRating;
     private int $imdbVotes;
     private string $imdbID;
     private string $type;
-    private string $dvd;
-    private string $boxOffice;
+    private ?string $dvd;
+    private ?string $boxOffice;
     private ?string $production;
     private ?string $webSite;
 
@@ -37,27 +37,29 @@ class Movie
         }
         $this->title = $data['Title'];
         $this->year = intval($data['Year']);
-        $this->rated = $data['Rater'] ?? '';
+        $this->rated = $this->cleanNA($data, 'Rated');
         $this->released = $data['Released'] ?? '';
-        $this->runtime = intval($data['Runtime']) ?? null;
+        $runTime = $this->cleanNA($data, 'Runtime');
+        $this->runtime = (!$runTime) ? intval($runTime) : null;
         $this->genre = explode(',', $data['Genre'] ?? '');
-        $this->director = $data['Director'];
+        $this->director = $this->cleanNA($data, 'Director');
         $this->actors = explode(',', $data['Actors']);
         $this->plot = $data['Plot'] ?? '';
         $this->language = $data['Language'];
         $this->country = $data['Country'];
-        $this->awards = $data['Awards'] ?? '';
+        $this->awards = $this->cleanNA($data, 'Awards');
         $this->poster = $data['Poster'] ?? '';
         $this->ratings = $data['Ratings'] ?? [];
-        $this->metascore = intval($data['Metascore']);
+        $metaScore = $this->cleanNA($data, 'Metascore');
+        $this->metascore = (!$metaScore) ? intval($metaScore) : null;
         $this->imdbRating = floatval($data['imdbRating']);
         $this->imdbVotes = intval($data['imdbVotes']);
         $this->imdbID = $data['imdbID'];
         $this->type = $data['Type'];
-        $this->dvd = $data['DVD'] ?? null;
-        $this->boxOffice = $data['BoxOffice'];
-        $this->production = $data['Production'] ?? null;
-        $this->webSite = $data['Website'] ?? null;
+        $this->dvd = $this->cleanNA($data, 'DVD');
+        $this->boxOffice = $this->cleanNA($data, 'BoxOffice');
+        $this->production = $this->cleanNA($data, 'Production');
+        $this->webSite = $this->cleanNA($data, 'Website');
     }
 
     /**
@@ -77,15 +79,15 @@ class Movie
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getYear(): int
+    public function getYear(): ?int
     {
         return $this->year;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getRated()
     {
@@ -101,9 +103,9 @@ class Movie
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getRuntime()
+    public function getRuntime(): ?int
     {
         return $this->runtime;
     }
@@ -173,9 +175,9 @@ class Movie
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getMetascore(): int
+    public function getMetascore(): ?int
     {
         return $this->metascore;
     }
@@ -237,11 +239,18 @@ class Movie
     }
 
     /**
-     * @return mixed|string|null
+     * @return string|null
      */
     public function getWebSite()
     {
         return $this->webSite;
     }
 
+    private function cleanNA($data, $property)
+    {
+        if (isset($data[$property]) && $data[$property] !== 'N/A') {
+            return $data[$property];
+        }
+        return null;
+    }
 }

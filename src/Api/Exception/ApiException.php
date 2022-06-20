@@ -6,5 +6,4 @@ namespace Omdb\Api\Exception;
 
 class ApiException extends OmdbException
 {
-
 }

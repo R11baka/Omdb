@@ -11,10 +11,12 @@ class ParamsConverter
     const MAPPING = [
         'title' => 't',
         'imdbid' => 'i',
+        'imdbId' => 'i',
         'search' => 's',
         'imdb' => 'i',
         'year' => 'y',
-        'apikey' => 'apikey'
+        'apikey' => 'apikey',
+        'page' => 'page'
     ];
 
     /**
@@ -26,7 +28,7 @@ class ParamsConverter
     {
         $result = [];
         foreach ($params as $k => $value) {
-            if (isset(self::MAPPING[$k])) {
+            if (isset(self::MAPPING[$k]) && !empty($value)) {
                 $newKey = self::MAPPING[$k];
                 $result[$newKey] = (string)$value;
             }
