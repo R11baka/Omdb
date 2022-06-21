@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+    -   name: Bug Report
+        url: https://github.com/R11baka/Omdb/issues/new
+        about: Report a bug
+    -   name: Feature Request
+        url: https://github.com/R11baka/Omdb/discussions/new?category=ideas
+        about: Share ideas for new features
+    -   name: Ask a Question
+        url: https://github.com/R11baka/Omdb/discussions/new?category=q-a
+        about: Ask the community for help

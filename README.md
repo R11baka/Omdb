@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Simple and lightweigth PHP library for using [OMDb](http://www.omdbapi.com/)
+Simple and lightweight PHP library for using [OMDb](http://www.omdbapi.com/)
 
 ## How to install
 
