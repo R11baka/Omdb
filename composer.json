@@ -36,7 +36,8 @@
     },
     "scripts": {
         "phpcs": "phpcs",
-        "phpunit": "phpunit --no-coverage",
+        "phpunit": "phpunit  --testsuite unit",
+        "phpunit-integration": "phpunit --testsuite integration",
         "psalm": "psalm",
         "test": [
             "@phpcs",
