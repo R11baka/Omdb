@@ -12,10 +12,10 @@
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="Unit Test Suite">
-            <directory>tests/Unit</directory>
+        <testsuite name="unit">
+            <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
-        <testsuite name="Integration Test Suite">
+        <testsuite name="integration">
             <directory suffix="Test.php">tests/Integration</directory>
         </testsuite>
     </testsuites>
