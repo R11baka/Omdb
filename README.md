@@ -62,7 +62,7 @@ Returns array with 20 items
 
 3. Search by title
 
-```injectablephp
+```php
 require 'vendor/autoload.php';
 use Omdb\Omdb;
 
@@ -77,7 +77,7 @@ echo $result->getImdbID();
 returns movie object or ApiException with message  `Movie not found`
 or you can add year
 
-```injectablephp
+```php
 require 'vendor/autoload.php';
 use Omdb\Omdb;
 
@@ -87,7 +87,7 @@ $result = $omdb->title("The Matrix")->year(1999)->search();
 
 4. Also you can fetch info by imdbId
 
-```injectablephp
+```php
 require 'vendor/autoload.php';
 use Omdb\Omdb;
 
