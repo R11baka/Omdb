@@ -8,10 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class YearTest extends TestCase
 {
-
     /**
      * @dataProvider  getCorrectYears
      * @test
+     * @testdox Correct years set up $year
      * @return void
      */
     public function correctYears($year)
@@ -24,6 +24,7 @@ class YearTest extends TestCase
      * @test
      * @dataProvider getIncorrectYears
      * @param $year
+     * @testdox Incorrect year as $year
      * @return void
      */
     public function incorrectYears($year)
@@ -39,6 +40,6 @@ class YearTest extends TestCase
 
     public function getIncorrectYears(): array
     {
-        return [['aaa'], [""], [null], [new \StdClass]];
+        return [['aaa'], [""], [null], [new \StdClass()]];
     }
 }
